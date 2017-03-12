@@ -27,7 +27,18 @@ class SiteController extends Controller {
             ['label' => Yii::t('frontend', 'HOME'), 'url' => ['/site/index'],'active'=>false],
             ['label' => Yii::t('frontend', 'BUYERS'), 'url' => ['/buyer/index','active'=>false]],
             ['label' => Yii::t('frontend', 'SELLERS'), 'url' => ['/seller/index','active'=>false]],
-            ['label' => Yii::t('frontend', 'LESSEE'), 'url' => ['/lessee/index','active'=>false],'options'=>['class'=>'last']],
+            ['label' => Yii::t('frontend', 'LESSEE'), 'url' => ['/lessee/index','active'=>false]],
+            ['label' => Yii::t('frontend', 'LOGIN'),
+                'url' => ['/user/sign-in/login'],
+                'visible' => Yii::$app->user->isGuest,
+                'active' => false, 'options' => ['class' => 'last']],
+            [
+                'label' => Yii::t('frontend', 'LOGOUT'),
+                'url' => ['/user/sign-in/logout'],
+                'visible'=>!Yii::$app->user->isGuest,
+                'linkOptions' => ['data-method' => 'post'],
+                'active' => false, 'options' => ['class' => 'last']
+            ]
         ];
     }
 
