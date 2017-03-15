@@ -12,7 +12,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
 <header>
     <?php
     NavBar::begin([
-        'brandLabel' => Html::img('@web/img/logo.png', ['alt' => Yii::$app->name, 'class' => 'img-responsive']),
+        'brandLabel' => Html::img('@storageUrl/img/logo.png', ['alt' => Yii::$app->name, 'class' => 'img-responsive']),
         /* Yii::$app->name, */
         'brandUrl' => Yii::$app->homeUrl,
         'options' => [
@@ -39,7 +39,7 @@ $this->beginContent('@frontend/views/layouts/_clear.php')
         <div class="row">
             <div class="col-md-12" style="margin: 40px 0px 40px 0px;">
                 <div class="col-md-8">
-                    <img src="img/footer.png" class="img-responsive" alt="..."><br>
+                    <?=Html::img("@storageUrl/img/footer.png",['class'=>"img-responsive", 'alt'=>"..."])?> <br>
                     <P>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo

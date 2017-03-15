@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use Yii;
 use frontend\models\ContactForm;
+use common\models\ContactUs;
 use yii\web\Controller;
 
 /**
@@ -24,10 +25,10 @@ class SiteController extends Controller {
     public function __construct($id, $module, $config = array()) {
         parent::__construct($id, $module, $config);
         Yii::$app->view->params['customMenu'] = [
-            ['label' => Yii::t('frontend', 'HOME'), 'url' => ['/site/index'],'active'=>false],
-            ['label' => Yii::t('frontend', 'BUYERS'), 'url' => ['/buyer/index','active'=>false]],
-            ['label' => Yii::t('frontend', 'SELLERS'), 'url' => ['/seller/index','active'=>false]],
-            ['label' => Yii::t('frontend', 'LESSEE'), 'url' => ['/lessee/index','active'=>false]],
+            ['label' => Yii::t('frontend', 'HOME'), 'url' => ['/site/index'], 'active' => false],
+            ['label' => Yii::t('frontend', 'BUYERS'), 'url' => ['/buyer/index', 'active' => false]],
+            ['label' => Yii::t('frontend', 'SELLERS'), 'url' => ['/seller/index', 'active' => false]],
+            ['label' => Yii::t('frontend', 'LESSEE'), 'url' => ['/lessee/index', 'active' => false]],
             ['label' => Yii::t('frontend', 'LOGIN'),
                 'url' => ['/user/sign-in/login'],
                 'visible' => Yii::$app->user->isGuest,
@@ -35,7 +36,7 @@ class SiteController extends Controller {
             [
                 'label' => Yii::t('frontend', 'LOGOUT'),
                 'url' => ['/user/sign-in/logout'],
-                'visible'=>!Yii::$app->user->isGuest,
+                'visible' => !Yii::$app->user->isGuest,
                 'linkOptions' => ['data-method' => 'post'],
                 'active' => false, 'options' => ['class' => 'last']
             ]
@@ -59,12 +60,19 @@ class SiteController extends Controller {
     }
 
     public function actionIndex() {
-        return $this->render('index', ['menu' => $this->_menu]);
+        $contact = new ContactUs;
+        return $this->render('index', ['contact' => $contact]);
     }
 
-    public function actionContact() {
-        $model = new ContactForm();
-        if ($model->load(Yii::$app->request->post())) {
+    public function actionContact() { //print_r(Yii::$app->request->post());die;
+        $model = new ContactUs();
+        $model->full_name = Yii::$app->request->post('full_name');
+        $model->email = Yii::$app->request->post('email');
+        $model->contact_number = Yii::$app->request->post('contact_number');
+        $model->message = Yii::$app->request->post('message');
+                
+               
+        if ($model->validate()) {
             if ($model->contact(Yii::$app->params['adminEmail'])) {
                 Yii::$app->getSession()->setFlash('alert', [
                     'body' => Yii::t('frontend', 'Thank you for contacting us. We will respond to you as soon as possible.'),
